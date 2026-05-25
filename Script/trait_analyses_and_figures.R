@@ -247,8 +247,8 @@ emmeans(bodysize_lm_f, pairwise ~ hist_temp, adjust = "tukey") # 25C females are
 ## Plot for manuscript ## ------------------------------------------------------
 
 # Create data frames for both males and females that includes the compact letter display
-cld_m_df_bodysize <- cld(emmeans(bodysize_lm_m, ~hist_temp), Letters = letters, adjust = "tukey")
-cld_f_df_bodysize <- cld(emmeans(bodysize_lm_f, ~hist_temp), Letters = letters, adjust = "tukey")
+cld_m_df_bodysize <- cld(emmeans(bodysize_lm_m, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
+cld_f_df_bodysize <- cld(emmeans(bodysize_lm_f, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
 
 # Remove all spaces from the compact letter display
 cld_m_df_bodysize$.group <- str_remove_all(cld_m_df_bodysize$.group, " ")
@@ -337,7 +337,7 @@ emmeans(fecundity_lm, pairwise ~ hist_temp, adjust = "tukey") # No difference be
 ## Plot for manuscript ## ------------------------------------------------------
 
 # Create data frame that includes the compact letter display
-cld_df_fecundity <- cld(emmeans(fecundity_lm, ~hist_temp), Letters = letters, adjust = "tukey")
+cld_df_fecundity <- cld(emmeans(fecundity_lm, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
 
 # Remove all spaces from the compact letter display
 cld_df_fecundity$.group <- str_remove_all(cld_df_fecundity$.group, " ")
@@ -493,7 +493,7 @@ emmeans(develop_rate_lm, pairwise ~ hist_temp, adjust = "tukey") # No difference
 ## Plot for manuscript ## ------------------------------------------------------
 
 # Create data frame that includes the compact letter display
-cld_df_develop <- cld(emmeans(develop_rate_lm, ~hist_temp), Letters = letters, adjust = "tukey")
+cld_df_develop <- cld(emmeans(develop_rate_lm, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
 
 # Remove all spaces from the compact letter display
 cld_df_develop$.group <- str_remove_all(cld_df_develop$.group, " ")

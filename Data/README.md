@@ -45,6 +45,20 @@ each `hist_temp`)
 \- `indiv_num`: replicate beetle (1-5 for each of females and males for
 each replicate population/community)
 
+#### **bodysize_founder.csv**
+
+\- `year`: year body size was measured 
+
+\- `temp`: temperature under which beetles evolved (25, 30, or 35°C; *founder* indicates body size measured in the single original source population)
+
+\- `rep`: replicate population (1-6 for each `temp` in 2022 and 2023; 1-10 for each `temp` in 2025; *NA* for the single original source population)
+
+\- `indiv_num`: replicate beetle (1-5 for each of females and males for each replicate population each year; 1-10 for each of females and males in the original source population)
+
+\- `sex`: female or male
+
+\- `weightinmg`: dry weight of beetle (mg)
+
 #### **fecundity.csv**
 
 \- `indiv_num`: replicate beetle (1-10 for each `hist_temp`)

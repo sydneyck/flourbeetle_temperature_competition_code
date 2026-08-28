@@ -118,7 +118,8 @@ weeks_plot_v4 <-ggplot(data_sum, aes(x = week, y = mean_cast, color = hist_temp,
   scale_shape_manual(values = c(17, 16), name = "Interspecific competition", labels = c("With", "Without")) +
   geom_errorbar(data = data_sum2, aes(x = week, ymin = CI_lower, ymax = CI_upper), position = position_dodge(width = 0.5), width = 0) +
   labs(x = "Weeks", y = expression(italic("T.castaneum") ~ "abundance at 30°C")) + 
-  theme_tess()
+  theme_tess() +
+  theme(legend.text = element_text(size = 14),legend.title = element_text(size = 15))
 
 # ggsave(file="Output/Cast_abundance_figure.pdf", weeks_plot_v4 , width = 12, 
 #       height = 7, units = "in")
@@ -144,7 +145,8 @@ conf_weeks_plot_v2 <-ggplot(conf_sum, aes(x = week, y = mean_conf, color = hist_
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   geom_errorbar(data = conf_sum2, aes(x = week, ymin = CI_lower, ymax = CI_upper), position = position_dodge(width = 0.5), width = 0) +
   labs(x = "Weeks", y = expression(italic("T.confusum") ~ "abundance at 30°C")) + 
-  theme_tess() 
+  theme_tess() +
+  theme(legend.text = element_text(size = 14),legend.title = element_text(size = 15))
 
 # ggsave(file="Output/Conf_abundance_figure.pdf", conf_weeks_plot_v2 , width = 12, 
 #       height = 7, units = "in")
@@ -320,3 +322,16 @@ lm5_nonpara <- art(cast ~ hist_temp*competition, data = data_5)
 
 # Run ANOVA on ART model
 anova(lm5_nonpara) # Significant interaction between hist_temp*competition 
+
+## Bonferroni correction for date-specific models  ## ------------------------------------------
+
+# Extract the p-values of the hist_temp x competition interaction
+p_values <- c(
+  anova(lm1)["hist_temp:competition", "Pr(>F)"],
+  anova(lm2_nonpara)["hist_temp:competition", "Pr(>F)"],
+  anova(lm3_nonpara)["hist_temp:competition", "Pr(>F)"],
+  anova(lm4_nonpara)["hist_temp:competition", "Pr(>F)"],
+  anova(lm5_nonpara)["hist_temp:competition", "Pr(>F)"])
+
+# Bonferroni correction
+p.adjust(p_values, method = "bonferroni")

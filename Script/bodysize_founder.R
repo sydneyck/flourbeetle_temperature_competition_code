@@ -18,11 +18,11 @@ library(patchwork)
 # ggplot theme
 theme_tess <- function (){
   theme_cowplot()+ 
-    theme(axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0), size = 17),
-          axis.title.x = element_text(margin = margin(t = 15, r = 0, b = 0, l = 0), size = 17),
-          axis.text.x=element_text(size=17), 
-          axis.text.y=element_text(size=17),
-          plot.title = element_text(hjust = 0.5,size=17))}
+    theme(axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0), size = 20),
+          axis.title.x = element_text(margin = margin(t = 15, r = 0, b = 0, l = 0), size = 20),
+          axis.text.x=element_text(size=20), 
+          axis.text.y=element_text(size=20),
+          plot.title = element_text(hjust = 0.5,size=20))}
 
 # Import the data 
 
@@ -80,6 +80,7 @@ f <- ggplot(female_treatmeans, aes(x = year, y = avg_bodysize, color = temp)) +
                      labels = c("Founder","25°C", "30°C", "35°C")) +
   scale_y_continuous(limits=c(0.87,1.6))+
   ggtitle("Females") +
+  theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5)) +
   theme_tess()+
   geom_vline(
     xintercept = 3.5,
@@ -114,12 +115,15 @@ m <- ggplot(male_treatmeans, aes(x = year, y = avg_bodysize, color = temp)) +
                      labels = c("Founder","25°C", "30°C", "35°C")) +
   scale_y_continuous(limits=c(0.87,1.6))+
   ggtitle("Males") +
+  theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5)) +
   geom_vline(
     xintercept = 3.5,
     color = "black",
     linewidth = 1.1
   )+
-  theme_tess()
+  theme_tess() +
+  theme(legend.text = element_text(size = 15),
+        legend.title = element_text(size = 16))
   
 # windows();m
 
@@ -135,10 +139,9 @@ bsize <- plot_grid(
   rel_widths = c(1, 1.2),
   labels = c("A", "B"),
   label_fontface = "bold",
-  label_size = 16,
+  label_size = 20,
   label_x = 0.02,   
-  label_y = 0.98    
-)
+  label_y = 0.98)
 
-ggsave(file="./Output/Bodysize_founder.pdf", bsize , width = 15, 
-       height = 8, units = "in")
+# ggsave(file="./Output/Bodysize_founder.pdf", bsize , width = 15, 
+#       height = 8, units = "in")

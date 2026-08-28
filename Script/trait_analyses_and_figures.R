@@ -20,11 +20,11 @@ library(patchwork)
 # Import ggplot theme for graphs
 theme_tess <- function (){
   theme_cowplot()+ 
-    theme(axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0), size = 20),
-          axis.title.x = element_text(margin = margin(t = 15, r = 0, b = 0, l = 0), size = 20),
-          axis.text.x=element_text(size=20), 
-          axis.text.y=element_text(size=20),
-          plot.title = element_text(hjust = 0.5,size=20))}
+    theme(axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0), size = 28),
+          axis.title.x = element_text(margin = margin(t = 15, r = 0, b = 0, l = 0), size = 28),
+          axis.text.x=element_text(size=28), 
+          axis.text.y=element_text(size=28),
+          plot.title = element_text(hjust = 0.5,size=28))}
 
 #### BODY SIZE BEFORE THE EXPERIMENT ####
 
@@ -112,8 +112,8 @@ shapiro.test(x = bodysize_f_residuals) # Residuals are normally distributed
 
 # Male and female on the same plot with sex on the x-axis 
 cg_bodysize_plot_v2 <- ggplot(bodysize_cg_sum, aes(x = sex, y = mean_weight, color = hist_temp)) +
-  geom_point(size = 4, position = position_dodge(width = 0.5)) +
-  geom_point(data = bodysize_cg2, aes(x = sex, y = weight_mg, color = hist_temp), position = position_jitterdodge(dodge.width = 0.5, jitter.width = 0.15, jitter.height = 0), size = 3, alpha = 0.2) +
+  geom_point(size = 5, position = position_dodge(width = 0.5)) +
+  geom_point(data = bodysize_cg2, aes(x = sex, y = weight_mg, color = hist_temp), position = position_jitterdodge(dodge.width = 0.5, jitter.width = 0.15, jitter.height = 0), size = 4, alpha = 0.2) +
   scale_y_continuous(breaks = seq(0.8, 1.8, by = 0.2), limits = c(0.8, 1.8)) + 
   scale_x_discrete(labels = c("Female", "Male")) +
   geom_errorbar(data = bodysize_cg_sum, aes(x = sex, ymin = mean_weight-se, ymax = mean_weight+se), position = position_dodge(width = 0.5), width = 0) +
@@ -121,10 +121,8 @@ cg_bodysize_plot_v2 <- ggplot(bodysize_cg_sum, aes(x = sex, y = mean_weight, col
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   theme_tess() +
   theme(legend.position = "none") +
-  annotate("text", label = expression(italic("P") ~ "= 0.12"), x = 2, y = 1.8, size = 5.5, fontface = 2) +
-  annotate("text", label = expression(italic("P") ~ "= 0.48"), x = 1, y = 1.8, size = 5.5, fontface = 2) +
   ggtitle("Body size before experiment") +
-  theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
+  theme(plot.title = element_text(size = 28, face = "bold", hjust = 0.5))
 
 #windows();cg_bodysize_plot_v2
 
@@ -272,20 +270,19 @@ cld_df_bodysize_end <- rbind(cld_f_df_bodysize, cld_m_df_bodysize)
 
 # Male and female on the same plot with sex on the x-axis
 bodysize_end_plot <- ggplot(bodysize_sum, aes(x = sex, y = avg_bodysize, color = hist_temp, shape = competition)) +
-  geom_point(size = 4, position = position_dodge(width = 0.5)) +
-  geom_point(data = bodysize_means, aes(x = sex, y = mean_bodysize, color = hist_temp, shape = competition), position = position_jitterdodge(dodge.width = 0.5, jitter.width = 0.15, jitter.height = 0), size = 3, alpha = 0.2) +
+  geom_point(size = 5, position = position_dodge(width = 0.5)) +
+  geom_point(data = bodysize_means, aes(x = sex, y = mean_bodysize, color = hist_temp, shape = competition), position = position_jitterdodge(dodge.width = 0.5, jitter.width = 0.15, jitter.height = 0), size = 4, alpha = 0.2) +
   scale_x_discrete(labels = c("Female", "Male")) +
   geom_errorbar(data = bodysize_sum, aes(x = sex, ymin = avg_bodysize-se, ymax = avg_bodysize+se), position = position_dodge(width = 0.5), width = 0) +
-  geom_text(data = cld_df_bodysize_end, aes(x = sex, y = emmean + SE + 0.1, label = .group, group = hist_temp), inherit.aes = FALSE, color = "black", position = position_dodge(width = 0.5), size = 5.5, fontface = "bold", vjust = 0) +
+  geom_text(data = cld_df_bodysize_end, aes(x = sex, y = emmean + SE + 0.1, label = .group, group = hist_temp), inherit.aes = FALSE, color = "black", position = position_dodge(width = 0.5), size = 7.5, fontface = "bold", vjust = 0) +
   labs(x = "Sex", y = "Weight (mg)") + 
+  scale_y_continuous(limits = c(0.8, 1.8),breaks = seq(0.8, 1.8, by = 0.2)) +
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   scale_shape_manual(values = c(17, 16), name = "Interspecific competition", labels = c("With", "Without")) +
   theme_tess() +
   theme(legend.position = "none") +
-  annotate("text", label = expression(bolditalic("P") ~ bold("< 0.001")), x = 2, y = 1.45, size = 5.5, fontface = 2) +
-  annotate("text", label = expression(bolditalic("P") ~ bold("< 0.001")), x = 1, y = 1.45, size = 5.5, fontface = 2) +
   ggtitle("Body size end of experiment") +
-  theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
+  theme(plot.title = element_text(size = 28, face = "bold", hjust = 0.5))
 
 #windows();bodysize_end_plot
 
@@ -347,19 +344,18 @@ cld_df_fecundity$hist_temp <- factor(cld_df_fecundity$hist_temp, levels = levels
 
 # Fecundity plot
 fecundity_plot_v3 <- ggplot(fecundity_sum, aes(x = hist_temp, y = mean_fecundity, color = hist_temp)) +
-  geom_point(size = 4, position = position_dodge(width = 0.5)) +
-  geom_jitter(data = fecundity, aes(x = hist_temp, y = egg_count, color = hist_temp), width = 0.05, height = 0, size = 3, alpha = 0.2) +
-  scale_y_continuous(breaks = seq(0, 16, by = 4)) + 
+  geom_point(size = 5, position = position_dodge(width = 0.5)) +
+  geom_jitter(data = fecundity, aes(x = hist_temp, y = egg_count, color = hist_temp), width = 0.05, height = 0, size = 4, alpha = 0.2) +
+  scale_y_continuous(limits = c(0, 16), breaks = seq(0, 16, by = 4)) + 
   scale_x_discrete(breaks = c(25, 30, 35), labels = c("25", "30", "35")) +
   geom_errorbar(data = fecundity_sum, aes(x = hist_temp, ymin = mean_fecundity-se, ymax = mean_fecundity+se), position = position_dodge(width = 0.5), width = 0) +
-  geom_text(data = cld_df_fecundity, aes(x = hist_temp, y = emmean + SE + 1.5, label = .group), color = "black", size = 5.5, fontface = "bold", vjust = 0) +
+  geom_text(data = cld_df_fecundity, aes(x = hist_temp, y = emmean + SE + 1.5, label = .group), color = "black", size = 7.5, fontface = "bold", vjust = 0) +
   labs(x = "Historical temperature (°C)", y = "Eggs laid in 48 hrs at 30°C") + 
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   theme_tess() +
   theme(legend.position = "none") + 
-  annotate("text", label = expression(bolditalic("P") ~ bold("< 0.001")), x = 2, y = 18, size = 5.5, fontface = 2) +
   ggtitle("Fecundity") +
-  theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
+  theme(plot.title = element_text(size = 28, face = "bold", hjust = 0.5))
 
 #windows();fecundity_plot_v3
 
@@ -416,17 +412,17 @@ shapiro.test(x = eggsize_residuals) # Residuals are normally distributed
 
 # Egg size plot 
 eggsize_plot_v3 <- ggplot(egg_sum, aes(x = hist_temp, y = avg_egg, color = hist_temp)) +
-  geom_point(size = 4, position = position_dodge(width = 0.5)) +
-  geom_jitter(data = egg_means, aes(x = hist_temp, y = mean_egg, color = hist_temp), width = 0.05, height = 0, size = 3, alpha = 0.2) +
+  geom_point(size = 5, position = position_dodge(width = 0.5)) +
+  geom_jitter(data = egg_means, aes(x = hist_temp, y = mean_egg, color = hist_temp), width = 0.05, height = 0, size = 4, alpha = 0.2) +
+  scale_y_continuous(limits = c(600, 720), breaks = seq(600, 720, by = 40)) + 
   scale_x_discrete(breaks = c(25, 30, 35), labels = c("25", "30", "35")) +
   geom_errorbar(data = egg_sum, aes(x = hist_temp, ymin = avg_egg-se, ymax = avg_egg+se), position = position_dodge(width = 0.5), width = 0) +
   labs(x = "Historical temperature (°C)", y = "Egg length (µm)") + 
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   theme_tess() +
   theme(legend.position = "none") +
-  annotate("text", label = expression(italic("P") ~ "= 0.22"), x = 2, y = 720, size = 5.5, fontface = 2) +
   ggtitle("Egg size") +
-  theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
+  theme(plot.title = element_text(size = 28, face = "bold", hjust = 0.5))
 
 #windows();eggsize_plot_v3
 
@@ -503,19 +499,17 @@ cld_df_develop$hist_temp <- factor(cld_df_develop$hist_temp, levels = levels(dev
 
 # Development rate plot
 development_rate_plot_v2 <- ggplot(develop_rate_sum, aes(x = hist_temp, y = mean_develop_rate, color = hist_temp)) +
-  geom_point(size = 4, position = position_dodge(width = 0.5)) +
-  geom_jitter(data = develop_rate_means, aes(x = hist_temp, y = mean_develop, color = hist_temp), width = 0.05, height = 0, size = 3, alpha = 0.2) +
-  #scale_y_continuous(breaks = seq(0, 0.05, by = 0.01)) + 
+  geom_point(size = 5, position = position_dodge(width = 0.5)) +
+  geom_jitter(data = develop_rate_means, aes(x = hist_temp, y = mean_develop, color = hist_temp), width = 0.05, height = 0, size = 4, alpha = 0.2) +
   scale_x_discrete(breaks = c(25, 30, 35), labels = c("25", "30", "35")) +
   geom_errorbar(data = develop_rate_sum, aes(x = hist_temp, ymin = mean_develop_rate-se, ymax = mean_develop_rate+se), position = position_dodge(width = 0.5), width = 0) +
-  geom_text(data = cld_df_develop, aes(x = hist_temp, y = emmean + SE + 0.0015, label = .group), color = "black", size = 5.5, fontface = "bold", vjust = 0) +
+  geom_text(data = cld_df_develop, aes(x = hist_temp, y = emmean + SE + 0.0015, label = .group), color = "black", size = 7.5, fontface = "bold", vjust = 0) +
   labs(x = "Historical temperature (°C)", y = "1/days to pupation at 30°C") + 
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   theme_tess() +
   theme(legend.position = "none") +
-  annotate("text", label = expression(bolditalic("P") ~ bold("= 0.033")), x = 2, y =0.05, size = 5.5, fontface = 2) +
   ggtitle("Development rate") +
-  theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
+  theme(plot.title = element_text(size = 28, face = "bold", hjust = 0.5))
 
 #windows();development_rate_plot_v2
 
@@ -605,8 +599,8 @@ survival_sum <- proportion_survival %>%
 
 # Proportion of survival plot
 proportion_survival_plot_v3 <- ggplot(survival_sum, aes(x = hist_temp, y = mean_survival, color = hist_temp)) +
-  geom_point(size = 4, position = position_dodge(width = 0.5)) +
-  geom_jitter(data = proportion_survival, aes(x = hist_temp, y = proportion_survived, color = hist_temp), width = 0.1, height = 0, size = 3, alpha = 0.2) +
+  geom_point(size = 5, position = position_dodge(width = 0.5)) +
+  geom_jitter(data = proportion_survival, aes(x = hist_temp, y = proportion_survived, color = hist_temp), width = 0.1, height = 0, size = 4, alpha = 0.2) +
   scale_y_continuous(breaks = seq(0,1, by = 0.5)) + 
   scale_x_discrete(breaks = c(25, 30, 35), labels = c("25", "30", "35")) +
   geom_errorbar(data = survival_sum, aes(x = hist_temp, ymin = mean_survival-se, ymax = mean_survival+se), position = position_dodge(width = 0.5), width = 0) +
@@ -614,9 +608,8 @@ proportion_survival_plot_v3 <- ggplot(survival_sum, aes(x = hist_temp, y = mean_
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   theme_tess() +
   theme(legend.position = "none") +
-  annotate("text", label = expression(italic("P") ~ "= 0.29"), x = 2, y = 1.1, size = 5.5, fontface = 2) +
   ggtitle("Egg survival") +
-  theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
+  theme(plot.title = element_text(size = 28, face = "bold", hjust = 0.5))
 
 #windows();proportion_survival_plot_v3
 
@@ -630,9 +623,9 @@ composite_trait_plot_v2 <- ((cg_bodysize_plot_v2|bodysize_end_plot)/
                               guide_area()) +
   plot_layout(heights = c(1, 0.15, 1, 0.15, 1, 0.1), widths = c(1, 1), guides = "collect") +
   plot_annotation(tag_levels = c('A')) & 
-  theme(plot.tag = element_text(size = 25, face = "bold", margin = margin(t = -40)), # margin = margin(t = -40) moves the plot tag (i.e., 'A') upwards
+  theme(plot.tag = element_text(size = 28, face = "bold", margin = margin(t = -40)), # margin = margin(t = -40) moves the plot tag (i.e., 'A') upwards
         plot.tag.position = c(0.035, 1), plot.margin = margin(t = 20, r = 5.5, b = 20, l = 5.5) # changing the plot margins ensures that no labels are cut off
-        , legend.position = "bottom", legend.title = element_text(size = 20), legend.text = element_text(size = 20)) 
+        , legend.position = "bottom", legend.title = element_text(size = 26), legend.text = element_text(size = 26)) 
 
-# ggsave(file="Output/Composite_trait_figure.pdf", composite_trait_plot_v2 , width = 15, 
+# ggsave(file="Output/Composite_trait_figure.pdf", composite_trait_plot_v2 , width = 16, 
 #        height = 27, units = "in")

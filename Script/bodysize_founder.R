@@ -143,5 +143,30 @@ bsize <- plot_grid(
   label_x = 0.02,   
   label_y = 0.98)
 
-# ggsave(file="./Output/Bodysize_founder.pdf", bsize , width = 15, 
-#       height = 8, units = "in")
+#windows();bsize
+
+ggsave(file="./Output/Bodysize_founder.pdf", bsize , width = 15, 
+      height = 8, units = "in")
+
+##### Analysis of founder body size ####
+
+# Construct linear model and conduct two-way anova: year X temp
+
+#females
+twoyears_f<-female_popmeans %>%
+  filter(year%in%c(2023,2025))
+
+bodysize_f <- lm(mean_bodysize ~ year*temp, 
+                    data = twoyears_f)
+Anova(bodysize_f, type=2) 
+#effect of temp, no effect of year and no interaction
+
+#males
+twoyears_m<-male_popmeans %>%
+  filter(year%in%c(2023,2025))
+
+bodysize_m <- lm(mean_bodysize ~ year*temp, 
+                 data = twoyears_m)
+Anova(bodysize_m, type=2) 
+
+#effect of temp, weak effect of year, no interaction

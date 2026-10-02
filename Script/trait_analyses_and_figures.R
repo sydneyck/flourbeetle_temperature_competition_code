@@ -110,6 +110,30 @@ shapiro.test(x = bodysize_f_residuals) # Residuals are normally distributed
 
 ## Plot for manuscript ## ------------------------------------------------------
 
+# Create data frames for both males and females that includes the compact letter display
+cld_m_df_bodysize_before <- cld(emmeans(bodysize_m, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
+cld_f_df_bodysize_before <- cld(emmeans(bodysize_f, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
+
+# Remove all spaces from the compact letter display
+cld_m_df_bodysize_before$.group <- str_remove_all(cld_m_df_bodysize_before$.group, " ")
+cld_f_df_bodysize_before$.group <- str_remove_all(cld_f_df_bodysize_before$.group, " ")
+
+# Make sure the factor level order in cld_df is the same as in the summary data set
+cld_m_df_bodysize_before$hist_temp <- factor(cld_m_df_bodysize_before$hist_temp, levels = levels(bodysize_cg_sum_m$hist_temp))
+cld_f_df_bodysize_before$hist_temp <- factor(cld_f_df_bodysize_before$hist_temp, levels = levels(bodysize_cg_sum_f$hist_temp))
+
+# Add a column for 'sex' in each cld data frame so the clds can be mapped onto the plot
+cld_m_df_bodysize_before$sex <- "m"
+cld_f_df_bodysize_before$sex <- "f"
+
+# Add se from the summary data to each cld data frame
+# This will ensure that letters are equal distances above error bars since the SE of emmeans() are the same for each hist_temp
+cld_m_df_bodysize_before <- left_join(cld_m_df_bodysize_before, bodysize_cg_sum_m[, c("hist_temp", "se")], by = c("hist_temp"))
+cld_f_df_bodysize_before <- left_join(cld_f_df_bodysize_before, bodysize_cg_sum_f[, c("hist_temp", "se")], by = c("hist_temp"))
+
+# Combine the cld data frames for males and females
+cld_df_bodysize_before <- rbind(cld_f_df_bodysize_before, cld_m_df_bodysize_before)
+
 # Male and female on the same plot with sex on the x-axis 
 cg_bodysize_plot_v2 <- ggplot(bodysize_cg_sum, aes(x = sex, y = mean_weight, color = hist_temp)) +
   geom_point(size = 5, position = position_dodge(width = 0.5)) +
@@ -117,6 +141,7 @@ cg_bodysize_plot_v2 <- ggplot(bodysize_cg_sum, aes(x = sex, y = mean_weight, col
   scale_y_continuous(breaks = seq(0.8, 1.8, by = 0.2), limits = c(0.8, 1.8)) + 
   scale_x_discrete(labels = c("Female", "Male")) +
   geom_errorbar(data = bodysize_cg_sum, aes(x = sex, ymin = mean_weight-se, ymax = mean_weight+se), position = position_dodge(width = 0.5), width = 0) +
+  geom_text(data = cld_df_bodysize_before, aes(x = sex, y = emmean + SE + 0.1, label = .group, group = hist_temp), inherit.aes = FALSE, color = "black", position = position_dodge(width = 0.5), size = 7.5, fontface = "bold", vjust = 0) +
   labs(x = "Sex", y = "Weight (mg)") + 
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   theme_tess() +
@@ -410,6 +435,15 @@ shapiro.test(x = eggsize_residuals) # Residuals are normally distributed
 
 ## Plot for manuscript ## ------------------------------------------------------
 
+# Create data frame that includes the compact letter display
+cld_df_eggsize <- cld(emmeans(egg_lm, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
+
+# Remove all spaces from the compact letter display
+cld_df_eggsize$.group <- str_remove_all(cld_df_eggsize$.group, " ")
+
+# Make sure the factor level order in cld_df is the same as in the summary data set
+cld_df_eggsize$hist_temp <- factor(cld_df_eggsize$hist_temp, levels = levels(egg_sum$hist_temp))
+
 # Egg size plot 
 eggsize_plot_v3 <- ggplot(egg_sum, aes(x = hist_temp, y = avg_egg, color = hist_temp)) +
   geom_point(size = 5, position = position_dodge(width = 0.5)) +
@@ -417,6 +451,7 @@ eggsize_plot_v3 <- ggplot(egg_sum, aes(x = hist_temp, y = avg_egg, color = hist_
   scale_y_continuous(limits = c(600, 720), breaks = seq(600, 720, by = 40)) + 
   scale_x_discrete(breaks = c(25, 30, 35), labels = c("25", "30", "35")) +
   geom_errorbar(data = egg_sum, aes(x = hist_temp, ymin = avg_egg-se, ymax = avg_egg+se), position = position_dodge(width = 0.5), width = 0) +
+  geom_text(data = cld_df_eggsize, aes(x = hist_temp, y = emmean + SE + 5, label = .group), color = "black", size = 7.5, fontface = "bold", vjust = 0) +
   labs(x = "Historical temperature (°C)", y = "Egg length (µm)") + 
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   theme_tess() +
@@ -597,6 +632,15 @@ survival_sum <- proportion_survival %>%
 
 # View(survival_sum)
 
+# Create data frame that includes the compact letter display
+cld_df_survival <- cld(emmeans(glm_quasibinom, ~hist_temp, type = "response"), Letters = letters, adjust = "tukey", sort = FALSE)
+
+# Remove all spaces from the compact letter display
+cld_df_survival$.group <- str_remove_all(cld_df_survival$.group, " ")
+
+# Make sure the factor level order in cld_df is the same as in the summary data set
+cld_df_survival$hist_temp <- factor(cld_df_survival$hist_temp, levels = levels(survival_sum$hist_temp))
+
 # Proportion of survival plot
 proportion_survival_plot_v3 <- ggplot(survival_sum, aes(x = hist_temp, y = mean_survival, color = hist_temp)) +
   geom_point(size = 5, position = position_dodge(width = 0.5)) +
@@ -604,6 +648,7 @@ proportion_survival_plot_v3 <- ggplot(survival_sum, aes(x = hist_temp, y = mean_
   scale_y_continuous(breaks = seq(0,1, by = 0.5)) + 
   scale_x_discrete(breaks = c(25, 30, 35), labels = c("25", "30", "35")) +
   geom_errorbar(data = survival_sum, aes(x = hist_temp, ymin = mean_survival-se, ymax = mean_survival+se), position = position_dodge(width = 0.5), width = 0) +
+  geom_text(data = cld_df_survival, aes(x = hist_temp, y = prob + SE + 0.1, label = .group), color = "black", size = 7.5, fontface = "bold", vjust = 0) +
   labs(x = "Historical temperature (°C)", y = "Proportion of eggs\nsurviving to adulthood") + 
   scale_color_manual(values = c("blue", "orange", "red"), name = "Historical temperature", labels = c("25°C", "30°C", "35°C")) +
   theme_tess() +
@@ -627,5 +672,5 @@ composite_trait_plot_v2 <- ((cg_bodysize_plot_v2|bodysize_end_plot)/
         plot.tag.position = c(0.035, 1), plot.margin = margin(t = 20, r = 5.5, b = 20, l = 5.5) # changing the plot margins ensures that no labels are cut off
         , legend.position = "bottom", legend.title = element_text(size = 26), legend.text = element_text(size = 26)) 
 
-# ggsave(file="Output/Composite_trait_figure.pdf", composite_trait_plot_v2 , width = 16, 
-#        height = 27, units = "in")
+ ggsave(file="Output/Composite_trait_figure.pdf", composite_trait_plot_v2 , width = 16, 
+        height = 27, units = "in")

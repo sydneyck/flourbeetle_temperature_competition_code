@@ -325,8 +325,25 @@ anova(lm5_nonpara) # Significant interaction between hist_temp*competition
 
 ## Bonferroni correction for date-specific models  ## ------------------------------------------
 
-# Extract the p-values of the hist_temp x competition interaction
-p_values <- c(
+# Extract the p-values of the main effect of historical temperature
+p_hist_temp <- c(
+  anova(lm1)["hist_temp", "Pr(>F)"],
+  anova(lm2_nonpara)["hist_temp", "Pr(>F)"],
+  anova(lm3_nonpara)["hist_temp", "Pr(>F)"],
+  anova(lm4_nonpara)["hist_temp", "Pr(>F)"],
+  anova(lm5_nonpara)["hist_temp", "Pr(>F)"])
+
+# Extract the p-values of the main effect of competition
+
+p_comp <- c(
+  anova(lm1)["competition", "Pr(>F)"],
+  anova(lm2_nonpara)["competition", "Pr(>F)"],
+  anova(lm3_nonpara)["competition", "Pr(>F)"],
+  anova(lm4_nonpara)["competition", "Pr(>F)"],
+  anova(lm5_nonpara)["competition", "Pr(>F)"])
+
+# Extract the p-values of the historical temperature x competition interaction
+p_interaction <- c(
   anova(lm1)["hist_temp:competition", "Pr(>F)"],
   anova(lm2_nonpara)["hist_temp:competition", "Pr(>F)"],
   anova(lm3_nonpara)["hist_temp:competition", "Pr(>F)"],
@@ -334,4 +351,6 @@ p_values <- c(
   anova(lm5_nonpara)["hist_temp:competition", "Pr(>F)"])
 
 # Bonferroni correction
-p.adjust(p_values, method = "bonferroni")
+p_hist_temp_bonf <- p.adjust(p_hist_temp, method = "bonferroni")
+p_comp_bonf <- p.adjust(p_comp, method = "bonferroni")
+p_interaction_bonf <- p.adjust(p_interaction, method = "bonferroni")

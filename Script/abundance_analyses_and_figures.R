@@ -1,5 +1,5 @@
 # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - #
-# - # - #   Beetle Count (Discrete) -- Analyses & Figures           # - # - #
+# - # - #   Beetle Count -- Analyses & Figures           # - # - #
 # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - # - #
 
 #### SET-UP #### ---------------------------------------------------------------
@@ -90,14 +90,14 @@ Anova(lmmglobal_conf) # Significant main effect of time
 summary(lmmglobal_conf) 
 emtrends(lmmglobal_conf, ~ 1, var = "week") # T.confusum abundance decreased over time
 
-#### PLOTS FOR MANUSCRIPT #### -----------------------------------------------
+#### PLOTS FOR MANUSCRIPT (Figure 2 and Figure S3) #### -----------------------------------------------
 
 # Convert week variable to a factor for plotting
 data$week <- as.factor(data$week)
 data_sum$week <- as.factor(data_sum$week)
 conf_sum$week <- as.factor(conf_sum$week)
 
-# T. castaneum plot
+# T. castaneum plot (Figure 2)
 data_sum2 <- data %>%
   group_by(hist_temp, competition, week) %>%
   summarize(N = sum(!is.na(cast)),
@@ -124,7 +124,7 @@ weeks_plot_v4 <-ggplot(data_sum, aes(x = week, y = mean_cast, color = hist_temp,
 # ggsave(file="Output/Cast_abundance_figure.pdf", weeks_plot_v4 , width = 12, 
 #       height = 7, units = "in")
 
-# T. confusum plot
+# T. confusum plot (Figure S3)
 conf_sum2 <- data %>%
   filter(competition == "w") %>%
   group_by(hist_temp, competition, week) %>%

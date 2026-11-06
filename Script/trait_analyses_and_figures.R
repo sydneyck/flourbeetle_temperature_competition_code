@@ -108,7 +108,7 @@ leveneTest(weight_mg ~ hist_temp, data = bodysize_cg2_f) # Variances are homogen
 bodysize_f_residuals <- residuals(object = bodysize_f) # Extract the residuals
 shapiro.test(x = bodysize_f_residuals) # Residuals are normally distributed
 
-## Plot for manuscript ## ------------------------------------------------------
+## Plot for manuscript (Figure 1a) ## ------------------------------------------------------
 
 # Create data frames for both males and females that includes the compact letter display
 cld_m_df_bodysize_before <- cld(emmeans(bodysize_m, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
@@ -267,7 +267,7 @@ shapiro.test(x = bodysize_f_residuals) # Residuals are normally distributed
 emmeans(bodysize_lm_f, pairwise ~ hist_temp, adjust = "tukey") # 25C females are bigger than 30C females and 35C females 
                                                           # 30C females are bigger than 35C females 
 
-## Plot for manuscript ## ------------------------------------------------------
+## Plot for manuscript (Figure 1b) ## ------------------------------------------------------
 
 # Create data frames for both males and females that includes the compact letter display
 cld_m_df_bodysize <- cld(emmeans(bodysize_lm_m, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
@@ -356,7 +356,7 @@ shapiro.test(x = fecundity_residuals) # Residuals are normally distributed
 emmeans(fecundity_lm, pairwise ~ hist_temp, adjust = "tukey") # No difference between 30C and 35C
                                                          # Fecundity is higher in 25C than 30C and 35C
 
-## Plot for manuscript ## ------------------------------------------------------
+## Plot for manuscript (Figure 1c) ## ------------------------------------------------------
 
 # Create data frame that includes the compact letter display
 cld_df_fecundity <- cld(emmeans(fecundity_lm, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
@@ -433,7 +433,7 @@ leveneTest(mean_egg ~ hist_temp, data = egg_means) # Variances are homogeneous
 eggsize_residuals <- residuals(object = egg_lm) # Extract the residuals
 shapiro.test(x = eggsize_residuals) # Residuals are normally distributed
 
-## Plot for manuscript ## ------------------------------------------------------
+## Plot for manuscript (Figure 1d) ## ------------------------------------------------------
 
 # Create data frame that includes the compact letter display
 cld_df_eggsize <- cld(emmeans(egg_lm, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
@@ -521,7 +521,7 @@ emmeans(develop_rate_lm, pairwise ~ hist_temp, adjust = "tukey") # No difference
                                                             # Marginally significant between 25C and 35C 
                                                             # 35C develop slower than 30C 
 
-## Plot for manuscript ## ------------------------------------------------------
+## Plot for manuscript (Figure 1e) ## ------------------------------------------------------
 
 # Create data frame that includes the compact letter display
 cld_df_develop <- cld(emmeans(develop_rate_lm, ~hist_temp), Letters = letters, adjust = "tukey", sort = FALSE)
@@ -611,7 +611,7 @@ Anova(glm_quasibinom, type = "II") # Not significant
 
 # ---------- Plot mean proportion of survival per temperature --------#
 
-## Plot for manuscript ## ------------------------------------------------------
+## Plot for manuscript (Figure 1f) ## ------------------------------------------------------
 
 # Make new column calculating the proportion survival from each individual
 proportion_survival <- survival %>%
@@ -658,7 +658,7 @@ proportion_survival_plot_v3 <- ggplot(survival_sum, aes(x = hist_temp, y = mean_
 
 #windows();proportion_survival_plot_v3
 
-#### COMPOSITE FIGURE FOR MANUSCRIPT ####
+#### COMPOSITE FIGURE FOR MANUSCRIPT (Figure 1) ####
 
 composite_trait_plot_v2 <- ((cg_bodysize_plot_v2|bodysize_end_plot)/
                               (plot_spacer()|plot_spacer())/

@@ -41,7 +41,7 @@ levels(bodysize$indiv_num)
 levels(bodysize$sex)
 levels(bodysize$year)
 
-## PLOT
+## PLOT (Figure S2)
 
 # Calculate mean body size for each replicate population for each sex
 bodysize_means <- bodysize %>% 

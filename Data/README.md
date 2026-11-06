@@ -1,7 +1,8 @@
 
-Below is the metadata for the experimental data files associated with …
+Below is the metadata for the associated experimental data files.
 
 #### **General**
+Appears across multiple data files:
 
 \- `hist_temp`: historical temperature (25, 30, or 35°C) under which
 beetles evolved for 3.5 years

@@ -1,5 +1,5 @@
 # flourbeetle_temperature_and_competition_code
-This repository contains all of the data and code necessary to reproduce the analyses from "Interspecific competition eliminates the effects of rapid evolution to temperature on population dynamics".
+This repository contains all of the data and code necessary to reproduce the analyses from Chong-King & Grainger, "Interspecific competition eliminates the effects of rapid evolution to temperature on population dynamics".
 
 # Repository contents
 
